@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sum of N numbers</title>
+    <script type="text/javascript">
+        function sumofn(n){
+            let sum=0;
+            for (let i=1;i<=n;i++){
+                sum+=i;
+            }
+            return sum;
+        }
+
+        function calsum(){
+            let n=document.getElementById("numberInput").value;
+            n=parseInt(n);
+            if(!isNaN(n)&& n>0){
+                let sum=sumofn(n);
+                alert("SUm of first " + n +  "natural numbers:" + sum);
+            
+            }else{
+                alert("please enter positive integer")
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2> SUm of N natural numbers</h2>
+    <label for="numberInput">Enter a number:</label>
+    <input type="number" id="numberInput" min="1">
+    <button onclick="calsum()">Calculate</button>
+</body>
+</html>
+prog1.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>form validation</title>
+    <script type="text/javascript">
+    function formvalidation(){
+        var email= document.forms["myform"]["email"].value;
+        var mobile= document.forms["myform"]["mobile"].value;
+        var name= document.forms["myform"]["name"].value;
+        var emailregex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var mobileregex = /^\d{10}$/;
+        if (name==""){
+            alert("please enter your name");
+            return false;
+        }
+        if(!emailregex.test(email)){
+            alert("please enter valid email id");
+            return false;
+        }
+        if(!mobileregex.test(mobile)){
+            alert("please enter valid mobile number with 10 digits")
+        }
+    }
+</script>
+</head>
+<body>
+    <h1><i>FILL THE FORM RN</i></h1>
+    <form name="myform" onsubmit="return formvalidation()" method="post">
+        name: <input type="text" name="name"><br><br>
+        email:<input type="text" name="email"><br><br>
+        mobile number:<input type="text" name="mobile"><br><br>
+        Gender:
+        <input type="radio" name="Gender" value="male">Male
+        <input type="radio" name="Gender" value="female">Female<br><br>
+        Hobbies:
+        <input type="checkbox" name="Hobbies" value="cricket"> cricket
+        <input type="checkbox" name="Hobbies" value="reading"> reading
+        <input type="checkbox" name="Hobbies" value="running"> running<br><br>
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+prog10.php
+<?php
+
+
+function removedup($array){
+    $result= array_values(array_unique($array));
+    return %result;
+
+}
+
+$sortedlist=[1,1,2,2,2,2,3,3,3,3,3,3,4,5,6,7,7,7,7,99,99,99,99];
+$unilist=removedup($sortedlist);
+
+echo "Original list: ";
+print_r($sortedlist);
+echo "<br> Unique list: ";
+print_r($unilist);
+
+?>
+prog2.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>math expressions</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function evalexp(){
+            try{
+                var exp=document.getElementById('exp').value;
+                var result=eval(exp);
+                document.getElementById('result').innerText='Result: '+result;
+
+            }catch(error){
+                document.getElementById('result').innerText='Invalid expression';
+            }
+        }
+    </script>
+<div id="result"></div>
+    <form id="math evaluation">
+        <label for="exp">Enter mathematical expression:</label>
+        <input type="text" id="exp" name="expression">
+        <input type="button" value="evaluate" onclick="evalexp()">
+    </form>
+</body>
+</html>
+prog3.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dynamic page with animations</title>
+    <style type="text/css">
+        .layer{
+            width: 400px;
+            height: 400px;
+            background-color: blueviolet;
+            position: absolute;
+            text-align: center;
+            line-height: 250px;
+            border-radius: 50px;
+            left: 0;
+            top: 300px;
+        }
+    </style>
+</head>
+<body>   
+<div id="movinglayer" class="layer">Web programming</div>
+<script>
+    document.addEventListener('DOMContentLoaded',()=>{
+        const layer = document.getElementById('movinglayer');
+        let position=0;
+        let direction=1;
+
+        setInterval(() => {
+            if (position>window.innerWidth-200 || position<0){
+                direction *=-1;
+            }
+            position +=5*direction;
+            layer.style.left=position+'px';
+        }, 50);
+    });
+</script>  
+</body>
+</html>
+prog5.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Current date in words</title>
+</head>
+<body>
+    
+<h1> Today's date </h1>
+<p id="dateinwords"></p>
+
+<script>
+    const days=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    const months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+    const now=new Date();
+
+    const dayname=days[now.getDay()];
+    const monthName=months[now.getMonth()];
+    const year=now.getFullYear();
+    const date=now.getDate();
+
+    const dateString=`${dayname}, ${monthName} ${date}, ${year}`; 
+
+    document.getElementById("dateinwords").innerText= dateString;
+
+
+</script>
+</body>
+</html>
+prog6.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student grade info</title>
+
+    <script> 
+        function calmarks() {
+            var marks=document.getElementsByClassName('marks');
+            var total=0;
+            for(var i=0; i<marks.length; i++){
+                total+=parseInt(marks[i].value,10);
+            }
+            var average=total/marks.length;
+            var result= average >= 40 ? 'Pass' : 'Fail';
+            var grade=' ';
+            if (average>=80){
+                grade='A';
+            } else if(average>=60){
+                grade='B';
+            } else if(average>=40){
+                grade='C';
+            } else {
+                grade='F';
+            }
+            document.getElementById('total').innerHTML='Total:' + total;
+            document.getElementById('average').innerHTML='Average:' + average;
+            document.getElementById('result').innerHTML='Result:' + result;
+            document.getElementById('grade').innerHTML='Grade recieved:' + grade;
+            }
+        
+    </script>
+</head>
+<body>
+    <h2>Student info</h2>
+    <form>
+        Name:<input type="text" id="name"><br><br>
+        Marks 1:<input type="number" class="marks"><br><br>
+        Marks 2:<input type="number" class="marks"><br><br>
+        Marks 3:<input type="number" class="marks"><br><br>
+        <button type="button" onclick="calmarks()">Calculate</button>
+    </form>
+    <p id="total"></p>
+    <p id="result"></p>
+    <p id="average"></p>
+    <p id="grade"></p>
+</body>
+</html>
+prog7.html
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee information</title>
+</head>
+<body>
+    <h2> Employee info </h2>
+
+    <form id="employeeform">
+        <label for="basicpay">Basic pay: </label>
+        <input type="number" id="basicpay" name="basicpay"><br><br>
+        <input type="button" value="calculate" onclick="calpay()">
+    </form>
+    
+    <h2> Payroll details</h2>
+    <p id="result"></p>
+    <script>
+        function calpay(){
+            const basicpay=parseFloat(document.getElementById('basicpay').value);
+
+            const DA_PERCENT=20;
+            const HRA_PERCENT=15;
+            const PF_PERCENT=12;
+            const TAX_PERCENT=10;
+
+            const DA=basicpay*(DA_PERCENT/100);
+            const HRA=basicpay*(HRA_PERCENT/100);
+            const PF=basicpay*(PF_PERCENT/100);
+            const grosspay=basicpay+DA+HRA;
+            const Tax=grosspay*(TAX_PERCENT/100);
+            const deductions=PF+ Tax;
+            const netpay=grosspay-deductions;
+
+            const resultdiv=document.getElementById('result');
+            resultdiv.innerHTML=`
+            <strong>Basic pay:</strong> ${basicpay.toFixed(2)}<br>
+            <strong>DA:</strong> ${DA.toFixed(2)}<br>
+            <strong>HRA:</strong> ${HRA.toFixed(2)}<br>
+            <strong>PF:</strong> ${PF.toFixed(2)}<br>
+            <strong>Tax:</strong> ${Tax.toFixed(2)}<br>
+            <strong>Net pay:</strong> ${netpay.toFixed(2)}<br>
+            <strong>gross pay:</strong> ${grosspay.toFixed(2)}<br>
+            <strong>Total deductions:</strong> ${deductions.toFixed(2)}<br>
+      `;
+    }
+    </script>
+</body>
+</html>
+prog8.php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Change background with day </title>
+    <?php
+    $daysofweek=array(
+        'Sunday'=>'#ff6347',
+        'Monday'=>'#bf5c47',
+        'Tuesday'=>'#12a851',
+        'Wednesday'=>'#1241a8',
+        'Thursday'=>'#09f9f9',
+        'Friday'=>'#21cea7',
+        'Saturday'=>'#bd12a0',
+    );
+
+    $currentDay= date('l');
+    $backgroundColor='#FFFFFF';
+
+    if(array_key_exists($currentDay, $daysofweek)){
+        $backgroundColor=$daysofweek[$currentDay];
+    }
+    ?>
+    <style> 
+    body{
+        background-color: <?php echo $backgroundColor; ?>;
+    }
+    </style>
+</head>
+<body>
+    <h1> Welcome to ruchi's humble adobe </h1>
+    <h2> Today is: <?php echo $currentDay; ?>.</h2>
+</body>
+</html>
+prog9.php
+<?php
+
+function genprime($maxNum){
+    echo "Prime numbers up to $maxNum: ";
+    for($n=2; $n<=$maxNum; $n++){
+        $isPrime=true;
+        for($i=2;$i<= sqrt($n); $i++){
+            if($n%$i==0){
+                $isPrime=false;
+                break;
+            }
+            if ($isPrime){
+                echo $n . " ";
+            }
+        }
+        echo "<br>";
+    }
+}
+
+function genfibo($num){
+    $first=0;
+    $second=1;
+
+    echo "fibonacci series ($num terms): ";
+    for($i=0;$i<$num;$i++){
+        echo $first . " ";
+        $next=$first+$second;
+        $second=$next;
+    }
+    echo "<br>";
+}
+
+genprime(30);
+genfibo(60);
+
+?>

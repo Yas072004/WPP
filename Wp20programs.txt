@@ -1,0 +1,981 @@
+5th sem web prog
+                              lab4.html
+sum of N natural numbers 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sum of N numbers</title>
+    <script type="text/javascript">
+        function sumofn(n){
+            let sum=0;
+            for (let i=1;i<=n;i++){
+                sum+=i;
+            }
+            return sum;
+        }
+
+        function calsum(){
+            let n=document.getElementById("numberInput").value;
+            n=parseInt(n);
+            if(!isNaN(n)&& n>0){
+                let sum=sumofn(n);
+                alert("SUm of first " + n +  "natural numbers:" + sum);
+            
+            }else{
+                alert("please enter positive integer")
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2> SUm of N natural numbers</h2>
+    <label for="numberInput">Enter a number:</label>
+    <input type="number" id="numberInput" min="1">
+    <button onclick="calsum()">Calculate</button>
+</body>
+</html>
+                      prog1.html
+##form validation
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>form validation</title>
+    <script type="text/javascript">
+    function formvalidation(){
+        var email= document.forms["myform"]["email"].value;
+        var mobile= document.forms["myform"]["mobile"].value;
+        var name= document.forms["myform"]["name"].value;
+        var emailregex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var mobileregex = /^\d{10}$/;
+        if (name==""){
+            alert("please enter your name");
+            return false;
+        }
+        if(!emailregex.test(email)){
+            alert("please enter valid email id");
+            return false;
+        }
+        if(!mobileregex.test(mobile)){
+            alert("please enter valid mobile number with 10 digits")
+        }
+    }
+</script>
+</head>
+<body>
+    <h1><i>FILL THE FORM RN</i></h1>
+    <form name="myform" onsubmit="return formvalidation()" method="post">
+        name: <input type="text" name="name"><br><br>
+        email:<input type="text" name="email"><br><br>
+        mobile number:<input type="text" name="mobile"><br><br>
+        Gender:
+        <input type="radio" name="Gender" value="male">Male
+        <input type="radio" name="Gender" value="female">Female<br><br>
+        Hobbies:
+        <input type="checkbox" name="Hobbies" value="cricket"> cricket
+        <input type="checkbox" name="Hobbies" value="reading"> reading
+        <input type="checkbox" name="Hobbies" value="running"> running<br><br>
+        <input type="submit" value="submit">
+    </form>
+</body>
+</html>
+prog10.php
+##remove duplicates
+
+<?php
+
+
+function removedup($array){
+    $result= array_values(array_unique($array));
+    return %result;
+
+}
+
+$sortedlist=[1,1,2,2,2,2,3,3,3,3,3,3,4,5,6,7,7,7,7,99,99,99,99];
+$unilist=removedup($sortedlist);
+
+echo "Original list: ";
+print_r($sortedlist);
+echo "<br> Unique list: ";
+print_r($unilist);
+
+?>
+prog11.php
+##star pattern
+
+<?php
+// Total number of rows for the pattern
+$rows = 5;
+
+for ($i = $rows; $i > 0; $i--) {
+    // Printing leading spaces
+    for ($j = $rows; $j > $i; $j--) {
+        echo "&nbsp;"; // Non-breaking space for HTML output
+    }
+
+    // Printing asterisks
+    for ($k = 0; $k < $i; $k++) {
+        echo "*";
+    }
+
+    // Move to the next line
+    echo "<br>";
+}
+?>
+prog12.php
+##searching data using different criteria
+
+
+<?php
+
+// Sample data array
+$data = [
+    ['id' => 1, 'name' => 'Srikanth', 'age' => 30],
+    ['id' => 2, 'name' => 'Srinath', 'age' => 35],
+    ['id' => 3, 'name' => 'Srinivas', 'age' => 50],
+    ['id' => 4, 'name' => 'Smayan', 'age' => 45],
+    ['id' => 5, 'name' => 'Saatvik', 'age' => 50]
+];
+
+// Function to search by criteria
+function searchByCriteria($data, $criteria) {
+    $results = [];
+
+    foreach ($data as $entry) {
+        $match = true;
+
+        foreach ($criteria as $key => $value) {
+            if (!isset($entry[$key]) || $entry[$key] != $value) {
+                $match = false; // Corrected: $match false; to $match = false;
+                break;
+            }
+        }
+
+        if ($match) {
+            $results[] = $entry;
+        }
+    }
+
+    return $results;
+}
+
+// Search criteria
+$criteria = ['age' => 50];
+$searchResults = searchByCriteria($data, $criteria);
+
+// Display results
+echo "Search Results:<br>";
+print_r($searchResults);
+
+?>
+prog13.php
+##generate captcha code
+
+
+
+<?php
+
+session_start();
+
+// Function to generate a CAPTCHA code
+function generateCaptchaCode($length = 6) {
+    // Set of characters to choose from for the CAPTCHA code
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    
+    // Get the length of the character set
+    $charactersLength = strlen($characters);
+    
+    // Initialize an empty string for the CAPTCHA code
+    $randomString = '';
+    
+    // Loop to generate the random CAPTCHA code
+    for ($i = 0; $i < $length; $i++) {
+        // Append a random character to the string
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    
+    return $randomString;
+}
+
+// Generate and display the CAPTCHA code
+echo "Captcha Code is: " . generateCaptchaCode();
+
+?>
+prog14.php
+##storing and reading images from a database
+
+<?php
+// Start session
+session_start();
+
+// Establish connection to the database
+$conn = new mysqli("localhost", "root", "", "myDB"); // Update with your credentials
+
+// Check for connection error
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Function to display images
+function displayImages($conn) {
+    $sql = "SELECT id, image_name FROM Images";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div style="display: inline-block; margin: 10px;">';
+            echo '<a href="?id=' . $row["id"] . '" target="_blank">';
+            echo $row["image_name"];
+            echo '</a>';
+            echo '</div>';
+        }
+    } else {
+        echo "No images uploaded.";
+    }
+}
+
+// Handle image upload
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["image"])) {
+    $imageName = $_FILES["image"]["name"];
+    $imageType = $_FILES["image"]["type"];
+    $imageData = file_get_contents($_FILES["image"]["tmp_name"]);
+
+    // Prepare the SQL statement to insert image into the database
+    $stmt = $conn->prepare("INSERT INTO Images (image_name, image_type, image_data) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $imageName, $imageType, $imageData);
+
+    if ($stmt->execute()) {
+        echo "Image uploaded successfully.";
+    } else {
+        echo "Error uploading image: " . $stmt->error;
+    }
+
+    $stmt->close();
+}
+
+// Fetch and display the image if requested via GET
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
+    $stmt = $conn->prepare("SELECT image_type, image_data FROM Images WHERE id=?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->bind_result($imageType, $imageData);
+    $stmt->fetch();
+
+    // Output the image with the correct content type
+    header("Content-Type: $imageType");
+    echo $imageData;
+    exit; // Ensure script stops after displaying the image
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload and Display</title>
+</head>
+<body>
+
+<h1>Upload and Display Images</h1>
+
+<!-- Image upload form -->
+<form method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="image" id="image" required>
+    <input type="submit" value="Upload Image" name="submit">
+</form>
+
+<h2>Uploaded Images:</h2>
+<?php displayImages($conn); ?>
+
+</body>
+</html>
+
+<?php
+// Close the database connection after operations are completed
+$conn->close();
+?>
+prog15.php
+##Write a program in PHP to read and write file using form control.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Reader and Writer</title>
+</head>
+<body>
+
+<!-- Form to write data to a file -->
+<form action="FileReadwrite.php" method="post">
+    <label for="textdata">Enter Text:</label><br>
+    <textarea name="textdata" id="textdata"></textarea><br><br>
+    <input type="submit" value="Write to File"><br><br>
+</form>
+
+<!-- Form to upload a file and read its content -->
+<form action="FileReadwrite.php" method="post" enctype="multipart/form-data">
+    <label for="filedata">Upload File to Read File Contents:</label><br>
+    <input type="file" name="filedata" id="filedata"><br><br>
+    <input type="submit" value="Read File Contents"><br><br>
+</form>
+
+<?php
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // Check if text data is provided
+    if (!empty($_POST['textdata'])) {
+        // Write data to output.txt
+        $file = "output.txt";
+        $textData = $_POST['textdata'];
+        if (file_put_contents($file, $textData)) {
+            echo "Data written to file: $file<br>";
+        } else {
+            echo "Error writing data to file.<br>";
+        }
+    }
+
+    // Check if a file is uploaded
+    if (!empty($_FILES['filedata']['tmp_name'])) {
+        // Get file content
+        $fileContent = file_get_contents($_FILES['filedata']['tmp_name']);
+        
+        // Check if the file was read successfully
+        if ($fileContent !== false) {
+            echo "File content: <pre>" . htmlspecialchars($fileContent) . "</pre><br>";
+        } else {
+            echo "Error reading file.<br>";
+        }
+    }
+}
+?>
+
+</body>
+</html>
+prog16.php
+##add, update, delete using student database
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students</title>
+</head>
+<body>
+<h1>Manage Students</h1>
+<form method="post">
+    Reg No: <input type="text" name="regno" required><br><br>
+    Name: <input type="text" name="name"><br><br>
+    Age: <input type="number" name="age" min="1"><br><br>
+    Course: <input type="text" name="course"><br><br>
+    <input type="submit" name="action" value="Add">
+    <input type="submit" name="action" value="Update">
+    <input type="submit" name="action" value="Delete">
+</form>
+
+<?php
+// Establish a database connection
+$conn = new mysqli("localhost", "username", "password", "database");
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize input
+    $regno = $conn->real_escape_string(trim($_POST['regno']));
+    $name = $conn->real_escape_string(trim($_POST['name']));
+    $age = (int)$_POST['age'];
+    $course = $conn->real_escape_string(trim($_POST['course']));
+
+    // Prepare SQL statement based on action
+    switch ($_POST['action']) {
+        case "Add":
+            $stmt = $conn->prepare("INSERT INTO student (regno, name, age, course) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssis", $regno, $name, $age, $course);
+            break;
+        case "Update":
+            $stmt = $conn->prepare("UPDATE student SET name=?, age=?, course=? WHERE regno=?");
+            $stmt->bind_param("siss", $name, $age, $course, $regno);
+            break;
+        case "Delete":
+            $stmt = $conn->prepare("DELETE FROM student WHERE regno=?");
+            $stmt->bind_param("s", $regno);
+            break;
+        default:
+            echo "Invalid action.";
+            exit;
+    }
+
+    // Execute statement and check for errors
+    if ($stmt->execute() === FALSE) {
+        echo "Error: " . $stmt->error;
+    } else {
+        echo "Operation successful.";
+    }
+    
+    // Close statement
+    $stmt->close();
+}
+
+// Function to display students
+function displayStudents($conn) {
+    $sql = "SELECT * FROM student";
+    if ($result = $conn->query($sql)) {
+        if ($result->num_rows > 0) {
+            echo "<table border='1'>
+                <tr>
+                    <th>Reg No</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Course</th>
+                </tr>";
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>
+                    <td>" . htmlspecialchars($row["regno"]) . "</td>
+                    <td>" . htmlspecialchars($row["name"]) . "</td>
+                    <td>" . htmlspecialchars($row["age"]) . "</td>
+                    <td>" . htmlspecialchars($row["course"]) . "</td>
+                </tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "No results found.";
+        }
+        // Free result set
+        $result->free();
+    } else {
+        echo "Error fetching results: " . $conn->error;
+    }
+}
+
+// Display students
+displayStudents($conn);
+
+// Close connection
+$conn->close();
+?>
+</body>
+</html>
+prog17.php
+##php program to validate input
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Validation</title>
+</head>
+<body>
+<h1>Input Validation Form</h1>
+<form method="post">
+    Name: <input type="text" name="name" required><br><br>
+    Email: <input type="email" name="email" required><br><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
+
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Initialize variables to hold user input and error messages
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $errors = [];
+
+    // Validate name
+    if (empty($name)) {
+        $errors[] = "Name is required.";
+    } elseif (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
+        $errors[] = "Only letters and white space are allowed in the name.";
+    }
+
+    // Validate email
+    if (empty($email)) {
+        $errors[] = "Email is required.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    }
+
+    // Display errors or success messages
+    if (!empty($errors)) {
+        foreach ($errors as $error) {
+            echo "<div style='color: red;'>$error</div><br>";
+        }
+    } else {
+        echo "<div style='color: green;'>Name: " . htmlspecialchars($name) . "</div><br>";
+        echo "<div style='color: green;'>Email: " . htmlspecialchars($email) . "</div><br>";
+    }
+}
+?>
+</body>
+</html>
+prog18.php
+##setting and retrieving a cookie
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Handler</title>
+</head>
+<body>
+<?php
+// Check if the form has been submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize the username input
+    $username = htmlspecialchars(trim($_POST['username']));
+    
+    // Set the cookie with a name and value from the form
+    setcookie("username", $username, time() + (86400 * 30), "/"); // Cookie expires in 30 days
+    echo "<p>Cookie set. Reload the page to see the cookie value.</p>";
+}
+
+// Check if the cookie named "username" exists
+if (isset($_COOKIE["username"])) {
+    echo "<p>Welcome back, " . htmlspecialchars($_COOKIE["username"]) . "!</p>";
+} else {
+    echo "<p>Welcome, guest!</p>";
+}
+?>
+
+<!-- HTML form to set a cookie -->
+<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <label for="username">Enter your name:</label><br><br>
+    <input type="text" id="username" name="username" required><br><br>
+    <input type="submit" value="Set Cookie">
+</form>
+
+</body>
+</html>
+prog19.php
+##index.php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skyward Institute of Computer Applications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+        footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 10px 0;
+            position: relative; /* Allows footer to stay at the bottom */
+            bottom: 0; /* Positioning */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.jpg" alt="Skyward Institute of Computer Applications Logo" width="100">
+    <h1>Skyward Institute of Computer Applications</h1>
+    <p>157, 3rd Main, Chamrajpet, Bangalore - 560018</p>
+</header>
+
+<nav>
+    <a href="index.php">Home</a>
+    <a href="about.php">About Us</a>
+    <a href="courses.php">Courses</a>
+    <a href="contact.php">Contact Us</a>
+</nav>
+
+<main>
+    <h2>Welcome to Skyward Institute of Computer Applications</h2>
+    <p>We provide the best training in computer application courses.</p>
+    <p>Explore our courses and join us to enhance your skills!</p>
+</main>
+
+<footer>
+    <p>&copy; <?php echo date("Y"); ?> Skyward Institute of Computer Applications. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
+
+
+##about.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Skyward Institute of Computer Applications</title>
+</head>
+<body>
+    <h1>About Us</h1>
+    <p>Skyward Institute of Computer Applications, founded in 2010, offers quality education in computer applications. Our programs equip students with essential IT skills through hands-on training and experienced faculty.</p>
+</body>
+</html>
+
+##courses.php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses - Skyward Institute of Computer Applications</title>
+</head>
+<body>
+    <h1>Courses Offered</h1>
+    <h2>Bachelor of Computer Applications (BCA)</h2>
+    <h2>Master of Computer Applications (MCA)</h2>
+    <h2>Diploma in Computer Applications</h2>
+</body>
+</html>
+
+##contact.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us - Skyward Institute of Computer Applications</title>
+</head>
+<body>
+    <h1>Contact Us</h1>
+    <p><strong>Address:</strong> 157, 3rd Main, Chamrajpet, Bangalore 560018</p>
+    <p><strong>Phone:</strong> +91-9611185999</p>
+    <p><strong>Email:</strong> <a href="mailto:skyward.publishers@gmail.com">skyward.publishers@gmail.com</a></p>
+</body>
+</html>
+prog2.html
+##math expressions form
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>math expressions</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function evalexp(){
+            try{
+                var exp=document.getElementById('exp').value;
+                var result=eval(exp);
+                document.getElementById('result').innerText='Result: '+result;
+
+            }catch(error){
+                document.getElementById('result').innerText='Invalid expression';
+            }
+        }
+    </script>
+<div id="result"></div>
+    <form id="math evaluation">
+        <label for="exp">Enter mathematical expression:</label>
+        <input type="text" id="exp" name="expression">
+        <input type="button" value="evaluate" onclick="evalexp()">
+    </form>
+</body>
+</html>
+prog20.php
+##exception handling
+
+<?php
+function divide($numerator, $denominator) {
+    if ($denominator == 0) throw new Exception("Cannot divide by zero.");
+    return $numerator / $denominator;
+}
+
+function checkDateFormat($date, $format = 'Y-m-d') {
+    $datetime = DateTime::createFromFormat($format, $date);
+    if (!$datetime || $datetime->format($format) !== $date) throw new Exception("Invalid date format.");
+    echo "The date $date is valid.<br>";
+}
+
+// Testing Division
+try {
+    echo divide(10, 2) . "<br>";
+    echo divide(10, 0) . "<br>";
+} catch (Exception $e) {
+    echo "Division error: " . $e->getMessage() . "<br>";
+}
+
+// Testing Date Format
+try {
+    checkDateFormat("2023-03-10");
+    checkDateFormat("10/03/2023");
+} catch (Exception $e) {
+    echo "Date error: " . $e->getMessage() . "<br>";
+}
+?>
+prog3.html
+##animation
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dynamic page with animations</title>
+    <style type="text/css">
+        .layer{
+            width: 400px;
+            height: 400px;
+            background-color: blueviolet;
+            position: absolute;
+            text-align: center;
+            line-height: 250px;
+            border-radius: 50px;
+            left: 0;
+            top: 300px;
+        }
+    </style>
+</head>
+<body>   
+<div id="movinglayer" class="layer">Web programming</div>
+<script>
+    document.addEventListener('DOMContentLoaded',()=>{
+        const layer = document.getElementById('movinglayer');
+        let position=0;
+        let direction=1;
+
+        setInterval(() => {
+            if (position>window.innerWidth-200 || position<0){
+                direction *=-1;
+            }
+            position +=5*direction;
+            layer.style.left=position+'px';
+        }, 50);
+    });
+</script>  
+</body>
+</html>
+prog5.html
+##current date in words
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Current date in words</title>
+</head>
+<body>
+    
+<h1> Today's date </h1>
+<p id="dateinwords"></p>
+
+<script>
+    const days=["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    const months=["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+    const now=new Date();
+
+    const dayname=days[now.getDay()];
+    const monthName=months[now.getMonth()];
+    const year=now.getFullYear();
+    const date=now.getDate();
+
+    const dateString=`${dayname}, ${monthName} ${date}, ${year}`; 
+
+    document.getElementById("dateinwords").innerText= dateString;
+
+
+</script>
+</body>
+</html>
+prog6.html
+##student info, JS code to find total, average, result and grade
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student grade info</title>
+
+    <script> 
+        function calmarks() {
+            var marks=document.getElementsByClassName('marks');
+            var total=0;
+            for(var i=0; i<marks.length; i++){
+                total+=parseInt(marks[i].value,10);
+            }
+            var average=total/marks.length;
+            var result= average >= 40 ? 'Pass' : 'Fail';
+            var grade=' ';
+            if (average>=80){
+                grade='A';
+            } else if(average>=60){
+                grade='B';
+            } else if(average>=40){
+                grade='C';
+            } else {
+                grade='F';
+            }
+            document.getElementById('total').innerHTML='Total:' + total;
+            document.getElementById('average').innerHTML='Average:' + average;
+            document.getElementById('result').innerHTML='Result:' + result;
+            document.getElementById('grade').innerHTML='Grade recieved:' + grade;
+            }
+        
+    </script>
+</head>
+<body>
+    <h2>Student info</h2>
+    <form>
+        Name:<input type="text" id="name"><br><br>
+        Marks 1:<input type="number" class="marks"><br><br>
+        Marks 2:<input type="number" class="marks"><br><br>
+        Marks 3:<input type="number" class="marks"><br><br>
+        <button type="button" onclick="calmarks()">Calculate</button>
+    </form>
+    <p id="total"></p>
+    <p id="result"></p>
+    <p id="average"></p>
+    <p id="grade"></p>
+</body>
+</html>
+prog7.html
+##form for employee info, write JS to find DA, PF, HRA, TAX, gross pay, deduction and net pay
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee information</title>
+</head>
+<body>
+    <h2> Employee info </h2>
+
+    <form id="employeeform">
+        <label for="basicpay">Basic pay: </label>
+        <input type="number" id="basicpay" name="basicpay"><br><br>
+        <input type="button" value="calculate" onclick="calpay()">
+    </form>
+    
+    <h2> Payroll details</h2>
+    <p id="result"></p>
+    <script>
+        function calpay(){
+            const basicpay=parseFloat(document.getElementById('basicpay').value);
+
+            const DA_PERCENT=20;
+            const HRA_PERCENT=15;
+            const PF_PERCENT=12;
+            const TAX_PERCENT=10;
+
+            const DA=basicpay*(DA_PERCENT/100);
+            const HRA=basicpay*(HRA_PERCENT/100);
+            const PF=basicpay*(PF_PERCENT/100);
+            const grosspay=basicpay+DA+HRA;
+            const Tax=grosspay*(TAX_PERCENT/100);
+            const deductions=PF+ Tax;
+            const netpay=grosspay-deductions;
+
+            const resultdiv=document.getElementById('result');
+            resultdiv.innerHTML=`
+            <strong>Basic pay:</strong> ${basicpay.toFixed(2)}<br>
+            <strong>DA:</strong> ${DA.toFixed(2)}<br>
+            <strong>HRA:</strong> ${HRA.toFixed(2)}<br>
+            <strong>PF:</strong> ${PF.toFixed(2)}<br>
+            <strong>Tax:</strong> ${Tax.toFixed(2)}<br>
+            <strong>Net pay:</strong> ${netpay.toFixed(2)}<br>
+            <strong>gross pay:</strong> ${grosspay.toFixed(2)}<br>
+            <strong>Total deductions:</strong> ${deductions.toFixed(2)}<br>
+      `;
+    }
+    </script>
+</body>
+</html>
+prog8.php
+##changing background color using php
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Change background with day </title>
+    <?php
+    $daysofweek=array(
+        'Sunday'=>'#ff6347',
+        'Monday'=>'#bf5c47',
+        'Tuesday'=>'#12a851',
+        'Wednesday'=>'#1241a8',
+        'Thursday'=>'#09f9f9',
+        'Friday'=>'#21cea7',
+        'Saturday'=>'#bd12a0',
+    );
+
+    $currentDay= date('l');
+    $backgroundColor='#FFFFFF';
+
+    if(array_key_exists($currentDay, $daysofweek)){
+        $backgroundColor=$daysofweek[$currentDay];
+    }
+    ?>
+    <style> 
+    body{
+        background-color: <?php echo $backgroundColor; ?>;
+    }
+    </style>
+</head>
+<body>
+    <h1> Welcome to ruchi's humble adobe </h1>
+    <h2> Today is: <?php echo $currentDay; ?>.</h2>
+</body>
+</html>
+          prog9.php
+##generate prime and fibo numbers
+
+<?php
+
+function genprime($maxNum){
+    echo "Prime numbers up to $maxNum: ";
+    for($n=2; $n<=$maxNum; $n++){
+        $isPrime=true;
+        for($i=2;$i<= sqrt($n); $i++){
+            if($n%$i==0){
+                $isPrime=false;
+                break;
+            }
+            if ($isPrime){
+                echo $n . " ";
+            }
+        }
+        echo "<br>";
+    }
+}
+
+function genfibo($num){
+    $first=0;
+    $second=1;
+
+    echo "fibonacci series ($num terms): ";
+    for($i=0;$i<$num;$i++){
+        echo $first . " ";
+        $next=$first+$second;
+        $second=$next;
+    }
+    echo "<br>";
+}
+
+genprime(30);
+genfibo(60);
+
+?>
